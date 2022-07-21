@@ -1,0 +1,407 @@
+A51 MACRO ASSEMBLER  SPEAKER                                                              03/10/2022 20:34:12 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\Speaker.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE Speaker.a51 SET(SMALL) DEBUG PRINT(.\Listings\Speaker.lst) OBJECT(.\Obj
+                      ects\Speaker.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+  00A0                 1     LCD_data equ P2    ;LCD Data port
+  0080                 2     LCD_rs   equ P0.0  ;LCD Register Select
+  0081                 3     LCD_rw   equ P0.1  ;LCD Read/Write
+  0082                 4     LCD_en   equ P0.2  ;LCD Enable
+                       5     
+0000                   6     ORG 0H
+0000 020100            7     LJMP MAIN
+                       8     
+001B                   9     ORG 1BH
+001B 020050           10     LJMP ET1ISR
+                      11     
+0050                  12     ORG 50H
+0050 C28E             13     ET1ISR: CLR TR1
+0052 C28F             14             CLR TF1
+0054 16               15                     DEC @R0
+0055 758D3C           16             MOV TH1, #3CH
+0058 758BB0           17             MOV TL1, #0B0H
+005B D28E             18             SETB TR1
+005D 32               19             RETI
+                      20     
+0100                  21     ORG 100H
+0100                  22     MAIN:
+0100 758911           23     MOV TMOD, #11H
+0103 75A888           24     MOV IE, #88H
+0106 5100             25     ACALL LCD
+0108 9100             26     ACALL SPEAKER
+010A 80FE             27     HERE: SJMP HERE
+                      28     
+0400                  29     ORG 400H
+0400                  30     SPEAKER:
+0400 75701E           31     MOV 70H, #30                         
+0403 75711E           32     MOV 71H, #30
+0406 75721E           33     MOV 72H, #30
+0409 75731E           34     MOV 73H, #30
+040C 757428           35     MOV 74H, #40
+040F 757514           36     MOV 75H, #20
+0412 757628           37     MOV 76H, #40
+0415 757728           38     MOV 77H, #40
+                      39     
+                      40     
+0418 7870             41     MOV R0, #70H
+041A 758D3C           42     MOV TH1, #3CH                        
+041D 758BB0           43     MOV TL1, #0B0H
+0420 D28E             44     SETB TR1
+0422 919C             45     LOOP1: ACALL N1
+0424 B600FB           46            CJNE @R0, #0, LOOP1
+0427 C28E             47     CLR TR1
+                      48     
+0429 08               49     INC R0
+042A 758D3C           50     MOV TH1, #3CH
+042D 758BB0           51     MOV TL1, #0B0H
+0430 D28E             52     SETB TR1
+0432 91BF             53     LOOP2: ACALL N2
+0434 B600FB           54            CJNE @R0, #0, LOOP2
+0437 C28E             55     CLR TR1
+                      56     
+0439 08               57     INC R0
+A51 MACRO ASSEMBLER  SPEAKER                                                              03/10/2022 20:34:12 PAGE     2
+
+043A 758D3C           58     MOV TH1, #3CH
+043D 758BB0           59     MOV TL1, #0B0H
+0440 D28E             60     SETB TR1
+0442 91E2             61     LOOP3: ACALL N3
+0444 B600FB           62            CJNE @R0, #0, LOOP3
+0447 C28E             63     CLR TR1
+                      64     
+0449 08               65     INC R0
+044A 758D3C           66     MOV TH1, #3CH
+044D 758BB0           67     MOV TL1, #0B0H
+0450 D28E             68     SETB TR1
+0452 91BF             69     LOOP4: ACALL N2
+0454 B600FB           70            CJNE @R0, #0, LOOP4
+0457 C28E             71     CLR TR1
+                      72     
+0459 08               73     INC R0
+045A 758D3C           74     MOV TH1, #3CH
+045D 758BB0           75     MOV TL1, #0B0H
+0460 D28E             76     SETB TR1
+0462 B105             77     LOOP5: ACALL N4
+0464 B600FB           78            CJNE @R0, #0, LOOP5
+0467 C28E             79     CLR TR1
+                      80     
+0469 08               81     INC R0
+046A 758D3C           82     MOV TH1, #3CH
+046D 758BB0           83     MOV TL1, #0B0H
+0470 D28E             84     SETB TR1
+0472 C280             85     CLR P0.0
+0474 B600FD           86     LOOP6: CJNE @R0, #0, LOOP6
+0477 C28E             87     CLR TR1
+                      88     
+0479 08               89     INC R0
+047A 758D3C           90     MOV TH1, #3CH
+047D 758BB0           91     MOV TL1, #0B0H
+0480 D28E             92     SETB TR1
+0482 B105             93     LOOP7: ACALL N4
+0484 B600FB           94            CJNE @R0, #0, LOOP7
+0487 C28E             95     CLR TR1
+                      96     
+0489 08               97     INC R0
+048A 758D3C           98     MOV TH1, #3CH
+048D 758BB0           99     MOV TL1, #0B0H
+0490 D28E            100     SETB TR1
+0492 B128            101     LOOP8: ACALL N5
+0494 B600FB          102            CJNE @R0, #0, LOOP8
+0497 C28E            103     CLR TR1
+                     104     
+0499 020400          105     LJMP SPEAKER
+                     106     
+                     107     
+                     108     
+049C 758CEE          109     N1: MOV TH0, #0EEH
+049F 758A3F          110         MOV TL0, #3FH
+04A2 D287            111             SETB P0.7
+04A4 D28C            112         SETB TR0
+04A6 308DFD          113         AGAIN: JNB TF0, AGAIN
+04A9 C28C            114         CLR TR0
+04AB C28D            115         CLR TF0
+04AD C287            116             CLR P0.7
+04AF 758CEE          117             MOV TH0, #0EEH
+04B2 758A3F          118         MOV TL0, #3FH
+04B5 D28C            119         SETB TR0
+04B7 308DFD          120         AGAIN1: JNB TF0, AGAIN1
+04BA C28C            121         CLR TR0
+04BC C28D            122         CLR TF0
+04BE 22              123             RET
+A51 MACRO ASSEMBLER  SPEAKER                                                              03/10/2022 20:34:12 PAGE     3
+
+                     124             
+04BF 758CF0          125     N2: MOV TH0, #0F0H
+04C2 758A30          126         MOV TL0, #30H
+04C5 D287            127             SETB P0.7
+04C7 D28C            128         SETB TR0
+04C9 308DFD          129         AGAIN2: JNB TF0, AGAIN2
+04CC C28C            130         CLR TR0
+04CE C28D            131         CLR TF0
+04D0 C287            132             CLR P0.7
+04D2 758CF0          133             MOV TH0, #0F0H
+04D5 758A30          134         MOV TL0, #30H
+04D8 D28C            135         SETB TR0
+04DA 308DFD          136         AGAIN3: JNB TF0, AGAIN3
+04DD C28C            137         CLR TR0
+04DF C28D            138         CLR TF0
+04E1 22              139             RET
+                     140             
+04E2 758CF2          141     N3: MOV TH0, #0F2H
+04E5 758AB7          142         MOV TL0, #0B7H
+04E8 D287            143             SETB P0.7
+04EA D28C            144         SETB TR0
+04EC 308DFD          145         AGAIN4: JNB TF0, AGAIN4
+04EF C28C            146         CLR TR0
+04F1 C28D            147         CLR TF0
+04F3 C287            148             CLR P0.7
+04F5 758CF2          149             MOV TH0, #0F2H
+04F8 758AB7          150         MOV TL0, #0B7H
+04FB D28C            151         SETB TR0
+04FD 308DFD          152         AGAIN5: JNB TF0, AGAIN5
+0500 C28C            153         CLR TR0
+0502 C28D            154         CLR TF0
+0504 22              155             RET
+                     156             
+0505 758CF5          157     N4: MOV TH0, #0F5H
+0508 758A72          158         MOV TL0, #72H
+050B D287            159             SETB P0.7
+050D D28C            160         SETB TR0
+050F 308DFD          161         AGAIN6: JNB TF0, AGAIN6
+0512 C28C            162         CLR TR0
+0514 C28D            163         CLR TF0
+0516 C287            164             CLR P0.7
+0518 758CF5          165             MOV TH0, #0F5H
+051B 758A72          166         MOV TL0, #72H
+051E D28C            167         SETB TR0
+0520 308DFD          168         AGAIN7: JNB TF0, AGAIN7
+0523 C28C            169         CLR TR0
+0525 C28D            170         CLR TF0
+0527 22              171             RET
+                     172             
+0528 758CF4          173     N5: MOV TH0, #0F4H
+052B 758A2A          174         MOV TL0, #2AH
+052E D287            175             SETB P0.7
+0530 D28C            176         SETB TR0
+0532 308DFD          177         AGAIN8: JNB TF0, AGAIN8
+0535 C28C            178         CLR TR0
+0537 C28D            179         CLR TF0
+0539 C287            180             CLR P0.7
+053B 758CF4          181             MOV TH0, #0F4H
+053E 758A2A          182         MOV TL0, #2AH
+0541 D28C            183         SETB TR0
+0543 308DFD          184         AGAIN9: JNB TF0, AGAIN9
+0546 C28C            185         CLR TR0
+0548 C28D            186         CLR TF0
+054A 22              187             RET
+                     188     
+054B 22              189     RET
+A51 MACRO ASSEMBLER  SPEAKER                                                              03/10/2022 20:34:12 PAGE     4
+
+                     190     
+                     191     
+0200                 192     org 200h
+0200                 193     LCD:
+0200 75A000          194           mov P2,#00h
+0203 759000          195           mov P1,#00h
+                     196               ;initial delay for lcd power up
+                     197     
+                     198             ;here1:setb p1.0
+0206 518B            199               acall delay
+                     200             ;clr p1.0
+0208 518B            201               acall delay
+                     202             ;sjmp here1
+                     203     
+                     204     
+020A 5120            205               acall lcd_init      ;initialise LCD
+                     206             
+020C 518B            207               acall delay
+020E 518B            208               acall delay
+0210 518B            209               acall delay
+0212 7482            210               mov a, #10000010B              ;Put cursor on first row,3 column
+0214 515D            211               acall lcd_command      ;send command to LCD
+0216 518B            212               acall delay
+0218 900300          213               mov   dptr, #my_string1   ;Load DPTR with sring1 Addr
+021B 517D            214               acall lcd_sendstring     ;call text strings sending routine
+021D 518B            215               acall delay
+                     216     
+021F 22              217     RET                             
+                     218     
+                     219     ;------------------------LCD Initialisation routine----------------------------------------
+                             ------------
+0220                 220     lcd_init:
+0220 75A038          221              mov   LCD_data,#38H  ;Function set: 2 Line, 8-bit, 5x7 dots
+0223 C280            222              clr   LCD_rs         ;Selected command register
+0225 C281            223              clr   LCD_rw         ;We are writing in instruction register
+0227 D282            224              setb  LCD_en         ;Enable H->L
+0229 518B            225                      acall delay
+022B C282            226              clr   LCD_en
+022D 518B            227                  acall delay
+                     228     
+022F 75A00C          229              mov   LCD_data,#0CH  ;Display on, Curson off
+0232 C280            230              clr   LCD_rs         ;Selected instruction register
+0234 C281            231              clr   LCD_rw         ;We are writing in instruction register
+0236 D282            232              setb  LCD_en         ;Enable H->L
+0238 518B            233                      acall delay
+023A C282            234              clr   LCD_en
+                     235              
+023C 518B            236                      acall delay
+023E 75A001          237              mov   LCD_data,#01H  ;Clear LCD
+0241 C280            238              clr   LCD_rs         ;Selected command register
+0243 C281            239              clr   LCD_rw         ;We are writing in instruction register
+0245 D282            240              setb  LCD_en         ;Enable H->L
+0247 518B            241                      acall delay
+0249 C282            242              clr   LCD_en
+                     243              
+024B 518B            244                      acall delay
+                     245     
+024D 75A006          246              mov   LCD_data,#06H  ;Entry mode, auto increment with no shift
+0250 C280            247              clr   LCD_rs         ;Selected command register
+0252 C281            248              clr   LCD_rw         ;We are writing in instruction register
+0254 D282            249              setb  LCD_en         ;Enable H->L
+0256 518B            250                      acall delay
+0258 C282            251              clr   LCD_en
+                     252     
+025A 518B            253                      acall delay
+                     254              
+A51 MACRO ASSEMBLER  SPEAKER                                                              03/10/2022 20:34:12 PAGE     5
+
+025C 22              255              ret                  ;Return from routine
+                     256     
+                     257     ;-----------------------command sending routine-------------------------------------
+025D                 258      lcd_command:
+025D F5A0            259              mov   LCD_data,A     ;Move the command to LCD port
+025F C280            260              clr   LCD_rs         ;Selected command register
+0261 C281            261              clr   LCD_rw         ;We are writing in instruction register
+0263 D282            262              setb  LCD_en         ;Enable H->L
+0265 518B            263                      acall delay
+0267 C282            264              clr   LCD_en
+0269 518B            265                      acall delay
+                     266         
+026B 22              267              ret  
+                     268     ;-----------------------data sending routine-------------------------------------          
+                                       
+026C                 269      lcd_senddata:
+026C F5A0            270              mov   LCD_data,A     ;Move the command to LCD port
+026E D280            271              setb  LCD_rs         ;Selected data register
+0270 C281            272              clr   LCD_rw         ;We are writing
+0272 D282            273              setb  LCD_en         ;Enable H->L
+0274 518B            274                      acall delay
+0276 C282            275              clr   LCD_en
+0278 518B            276              acall delay
+027A 518B            277                      acall delay
+027C 22              278              ret                  ;Return from busy routine
+                     279     
+                     280     ;-----------------------text strings sending routine-------------------------------------
+027D                 281     lcd_sendstring:
+027D C0E0            282             push 0e0h
+027F                 283             lcd_sendstring_loop:
+027F E4              284                      clr   a                 ;clear Accumulator for any previous data
+0280 93              285                      movc  a,@a+dptr         ;load the first character in accumulator
+0281 6005            286                      jz    exit              ;go to exit if zero
+0283 516C            287                      acall lcd_senddata      ;send first char
+0285 A3              288                      inc   dptr              ;increment data pointer
+0286 80F7            289                      sjmp  LCD_sendstring_loop    ;jump back to send the next character
+0288 D0E0            290     exit:    pop 0e0h
+028A 22              291              ret                     ;End of routine
+                     292     
+                     293     ;----------------------delay routine-----------------------------------------------------
+028B C000            294     delay:   push 0
+028D C001            295              push 1
+028F 7801            296              mov r0,#1
+0291 79FF            297     loop9:   mov r1,#255
+0293 D9FE            298              loop:   djnz r1, loop
+0295 D8FA            299              djnz r0, loop9
+0297 D001            300              pop 1
+0299 D000            301              pop 0 
+029B 22              302              ret
+                     303     
+                     304     
+                     305     ;------------- ROM text strings------------------------------------------------------------
+                             ---
+0300                 306     org 300h
+0300                 307     my_string1:
+0300 524F4C4C        308              DB   "ROLLING TIME", 00H
+0304 494E4720                
+0308 54494D45                
+030C 00                      
+                     309     
+                     310                              
+                     311     
+                     312     END
+A51 MACRO ASSEMBLER  SPEAKER                                                              03/10/2022 20:34:12 PAGE     6
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E              T Y P E  V A L U E   ATTRIBUTES
+
+AGAIN . . . . . . .  C ADDR   04A6H   A   
+AGAIN1. . . . . . .  C ADDR   04B7H   A   
+AGAIN2. . . . . . .  C ADDR   04C9H   A   
+AGAIN3. . . . . . .  C ADDR   04DAH   A   
+AGAIN4. . . . . . .  C ADDR   04ECH   A   
+AGAIN5. . . . . . .  C ADDR   04FDH   A   
+AGAIN6. . . . . . .  C ADDR   050FH   A   
+AGAIN7. . . . . . .  C ADDR   0520H   A   
+AGAIN8. . . . . . .  C ADDR   0532H   A   
+AGAIN9. . . . . . .  C ADDR   0543H   A   
+DELAY . . . . . . .  C ADDR   028BH   A   
+ET1ISR. . . . . . .  C ADDR   0050H   A   
+EXIT. . . . . . . .  C ADDR   0288H   A   
+HERE. . . . . . . .  C ADDR   010AH   A   
+IE. . . . . . . . .  D ADDR   00A8H   A   
+LCD . . . . . . . .  C ADDR   0200H   A   
+LCD_COMMAND . . . .  C ADDR   025DH   A   
+LCD_DATA. . . . . .  D ADDR   00A0H   A   
+LCD_EN. . . . . . .  B ADDR   0080H.2 A   
+LCD_INIT. . . . . .  C ADDR   0220H   A   
+LCD_RS. . . . . . .  B ADDR   0080H.0 A   
+LCD_RW. . . . . . .  B ADDR   0080H.1 A   
+LCD_SENDDATA. . . .  C ADDR   026CH   A   
+LCD_SENDSTRING. . .  C ADDR   027DH   A   
+LCD_SENDSTRING_LOOP  C ADDR   027FH   A   
+LOOP. . . . . . . .  C ADDR   0293H   A   
+LOOP1 . . . . . . .  C ADDR   0422H   A   
+LOOP2 . . . . . . .  C ADDR   0432H   A   
+LOOP3 . . . . . . .  C ADDR   0442H   A   
+LOOP4 . . . . . . .  C ADDR   0452H   A   
+LOOP5 . . . . . . .  C ADDR   0462H   A   
+LOOP6 . . . . . . .  C ADDR   0474H   A   
+LOOP7 . . . . . . .  C ADDR   0482H   A   
+LOOP8 . . . . . . .  C ADDR   0492H   A   
+LOOP9 . . . . . . .  C ADDR   0291H   A   
+MAIN. . . . . . . .  C ADDR   0100H   A   
+MY_STRING1. . . . .  C ADDR   0300H   A   
+N1. . . . . . . . .  C ADDR   049CH   A   
+N2. . . . . . . . .  C ADDR   04BFH   A   
+N3. . . . . . . . .  C ADDR   04E2H   A   
+N4. . . . . . . . .  C ADDR   0505H   A   
+N5. . . . . . . . .  C ADDR   0528H   A   
+P0. . . . . . . . .  D ADDR   0080H   A   
+P1. . . . . . . . .  D ADDR   0090H   A   
+P2. . . . . . . . .  D ADDR   00A0H   A   
+SPEAKER . . . . . .  C ADDR   0400H   A   
+TF0 . . . . . . . .  B ADDR   0088H.5 A   
+TF1 . . . . . . . .  B ADDR   0088H.7 A   
+TH0 . . . . . . . .  D ADDR   008CH   A   
+TH1 . . . . . . . .  D ADDR   008DH   A   
+TL0 . . . . . . . .  D ADDR   008AH   A   
+TL1 . . . . . . . .  D ADDR   008BH   A   
+TMOD. . . . . . . .  D ADDR   0089H   A   
+TR0 . . . . . . . .  B ADDR   0088H.4 A   
+TR1 . . . . . . . .  B ADDR   0088H.6 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
+A51 MACRO ASSEMBLER  SPEAKER                                                              03/10/2022 20:34:12 PAGE     7
+

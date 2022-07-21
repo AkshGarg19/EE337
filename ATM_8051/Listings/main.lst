@@ -1,0 +1,207 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              04/02/2022 17:13:03 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <at89c5131.h>
+   2          #include "endsem.h"
+   3          
+   4          
+   5          char S_str[6]= {0,0,0,0,0,0};   //String for Balance Sita
+   6          char G_str[6] = {0,0,0,0,0,0};  //String for Balance Gita
+   7          char n500_s[3]= {0,0,0};    // STRING FOR 500RS NOTE
+   8          char n100_s[3]= {0,0,0};    // STRING FOR 100RS NOTE
+   9          
+  10          char password[5] = {0,0,0,0,0} ;   //PASSWORD ARRAY
+  11          //Main function
+  12          
+  13          //-------------------------------------------------
+  14          void main(void)
+  15          {
+  16   1        unsigned char ch=0;
+  17   1        unsigned char ch2=0;
+  18   1        unsigned char ch3=0;
+  19   1        unsigned char ch4=0;
+  20   1        char name1[5]={'S','i','t','a','\0'};
+  21   1        char name2[5]={'G','i','t','a','\0'};
+  22   1        char balance1[6]={0,0,0,0,0,'\0'};
+  23   1        char balance2[6]={0,0,0,0,0,'\0'};
+  24   1        unsigned int bal_1 = 10000;
+  25   1        unsigned int bal_2 = 10000;
+  26   1        unsigned int val_1=0;
+  27   1        unsigned int val_2=0;
+  28   1        unsigned int five_notes=0;
+  29   1        unsigned int one_notes=0;
+  30   1        char five[6] = {0,0,0,0,0,'\0'};
+  31   1        char one[6] = {0,0,0,0,0,'\0'};
+  32   1        P1 = 0x0F;
+  33   1        uart_init();            // Please finish this function in endsem.h 
+  34   1          while (1)
+  35   1          {
+  36   2            transmit_string("Press A for Account display and W for withdrawing cash\r\n");
+  37   2            ch = receive_char();
+  38   2            switch(ch)
+  39   2            {
+  40   3              
+  41   3              
+  42   3              case 'a':
+  43   3                       transmit_string("Hello, Please enter Account Number\r\n");
+  44   3                       ch2 = receive_char();
+  45   3                       switch(ch2)
+  46   3                       {
+  47   4                         case '1':
+  48   4                          int_to_string(bal_1,balance1);
+  49   4                          transmit_string("Account Holder: ");
+  50   4                          transmit_string(name1);
+  51   4                          transmit_string("\r\n");
+  52   4                          transmit_string("Account Balance: ");
+  53   4                          transmit_string(balance1);
+  54   4                          transmit_string("\r\n");
+C51 COMPILER V9.60.0.0   MAIN                                                              04/02/2022 17:13:03 PAGE 2   
+
+  55   4                          transmit_string("\r\n");
+  56   4                          break;
+  57   4                         
+  58   4                         case '2':
+  59   4                          int_to_string(bal_2,balance2);
+  60   4                          transmit_string("Account Holder: ");
+  61   4                          transmit_string(name2);
+  62   4                          transmit_string("\r\n");
+  63   4                          transmit_string("Account Balance: ");
+  64   4                          transmit_string(balance2);
+  65   4                          transmit_string("\r\n");
+  66   4                          transmit_string("\r\n");
+  67   4                          break;
+  68   4                         
+  69   4                         default:transmit_string("No such account, please enter valid details\r\n");
+  70   4                                 break; 
+  71   4                       }
+  72   3                       break;
+  73   3              case 'w':
+  74   3                       transmit_string("Withdraw state, enter account number\r\n");
+  75   3                       ch2 = receive_char();
+  76   3                       switch(ch2)
+  77   3                       {
+  78   4                         case '1':
+  79   4                          int_to_string(bal_1,balance1);
+  80   4                          transmit_string("Account Holder: ");
+  81   4                          transmit_string(name1);
+  82   4                          transmit_string("\r\n");
+  83   4                          transmit_string("Account Balance: ");
+  84   4                          transmit_string(balance1);
+  85   4                          transmit_string("\r\n");
+  86   4                          transmit_string("\r\n");
+  87   4                          transmit_string("Enter Amount, in hundreds\r\n");
+  88   4                          ch3 = receive_char();
+  89   4                          ch4 = receive_char();
+  90   4                          if((ch3=='0' || ch3=='1' || ch3=='2' || ch3=='3' || ch3=='4' || ch3=='5' || ch3=='6' || ch3=='7
+             -' || ch3=='8' || ch3=='9') && (ch4=='0' || ch4=='1' || ch4=='2' || ch4=='3' || ch4=='4' || ch4=='5' || ch4=='6' || ch4==
+             -'7' || ch4=='8' || ch4=='9')){
+  91   5                              val_1 = (int)ch4 - 48;
+  92   5                              val_2 = val_1 * 100;
+  93   5                              val_1 = (int)ch3 - 48;
+  94   5                              val_2 = val_2 + val_1*1000;
+  95   5                              five_notes = val_2 / 500;
+  96   5                              one_notes = val_2 % 500;
+  97   5                              one_notes = one_notes / 100;
+  98   5                              if(val_2 > bal_1){
+  99   6                                transmit_string("Insufficient Balance\r\n");
+ 100   6                                continue;
+ 101   6                              }
+ 102   5                              bal_1 = bal_1 - val_2;
+ 103   5                              int_to_string(bal_1,balance1);
+ 104   5                              int_to_string(five_notes,five);
+ 105   5                              int_to_string(one_notes,one);
+ 106   5                              transmit_string("Remaining Balance: ");
+ 107   5                              transmit_string(balance1);
+ 108   5                              transmit_string("\r\n");
+ 109   5                              transmit_string("500 Notes: ");
+ 110   5                              transmit_string(five);
+ 111   5                              transmit_string(", 100 Notes: ");
+ 112   5                              transmit_string(one);
+ 113   5                              transmit_string("\r\n");
+ 114   5                              transmit_string("\r\n");
+C51 COMPILER V9.60.0.0   MAIN                                                              04/02/2022 17:13:03 PAGE 3   
+
+ 115   5                          }
+ 116   4                          else{transmit_string("Invalid Input\r\n");}
+ 117   4                          break;
+ 118   4                         
+ 119   4                         case '2':
+ 120   4                          int_to_string(bal_2,balance2);
+ 121   4                          transmit_string("Account Holder: ");
+ 122   4                          transmit_string(name2);
+ 123   4                          transmit_string("\r\n");
+ 124   4                          transmit_string("Account Balance: ");
+ 125   4                          transmit_string(balance2);
+ 126   4                          transmit_string("\r\n");
+ 127   4                          transmit_string("\r\n");
+ 128   4                          transmit_string("Enter Amount, in hundreds\r\n");
+ 129   4                          ch3 = receive_char();
+ 130   4                          ch4 = receive_char();
+ 131   4                          if((ch3=='0' || ch3=='1' || ch3=='2' || ch3=='3' || ch3=='4' || ch3=='5' || ch3=='6' || ch3=='7
+             -' || ch3=='8' || ch3=='9') && (ch4=='0' || ch4=='1' || ch4=='2' || ch4=='3' || ch4=='4' || ch4=='5' || ch4=='6' || ch4==
+             -'7' || ch4=='8' || ch4=='9')){
+ 132   5                              val_1 = (int)ch4 - 48;
+ 133   5                              val_2 = val_1 * 100;
+ 134   5                              val_1 = (int)ch3 - 48;
+ 135   5                              val_2 = val_2 + val_1*1000;
+ 136   5                              five_notes = val_2 / 500;
+ 137   5                              one_notes = val_2 % 500;
+ 138   5                              one_notes = one_notes / 100;
+ 139   5                              if(val_2 > bal_2){
+ 140   6                                transmit_string("Insufficient Balance\r\n");
+ 141   6                                continue;
+ 142   6                              }
+ 143   5                              
+ 144   5                              bal_2 = bal_2 - val_2;
+ 145   5                              int_to_string(bal_2,balance2);
+ 146   5                              int_to_string(five_notes,five);
+ 147   5                              int_to_string(one_notes,one);
+ 148   5                              transmit_string("Remaining Balance: ");
+ 149   5                              transmit_string(balance2);
+ 150   5                              transmit_string("\r\n");
+ 151   5                              transmit_string("500 Notes: ");
+ 152   5                              transmit_string(five);
+ 153   5                              transmit_string(", 100 Notes: ");
+ 154   5                              transmit_string(one);
+ 155   5                              transmit_string("\r\n");
+ 156   5                              transmit_string("\r\n");
+ 157   5                          }
+ 158   4                          else{transmit_string("Invalid Input\r\n");}
+ 159   4                          break;
+ 160   4                         
+ 161   4                         default:transmit_string("No such account, please enter valid details\r\n");
+ 162   4                                 break; 
+ 163   4                       }
+ 164   3                       break;
+ 165   3                    
+ 166   3              default:transmit_string("Please enter correct input\r\n");
+ 167   3                       break;
+ 168   3              
+ 169   3            }
+ 170   2            }
+ 171   1      }
+ 172          
+ 173          
+
+C51 COMPILER V9.60.0.0   MAIN                                                              04/02/2022 17:13:03 PAGE 4   
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1496    ----
+   CONSTANT SIZE    =    393    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     23      58
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      2    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
